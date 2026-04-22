@@ -3,10 +3,10 @@ namespace RazorPages.Models
 {
 	public class Student
 	{
-		public int Id { get; set; }
+		public int ID { get; set; }
 		public string LastName { get; set; }
 		public string FirstName { get; set; }
-		public DateTime EnrollMentDate { get; set; }
+		public DateTime EnrollmentDate { get; set; }
 
 		//NavigationProperties
 		public ICollection<Enrollment> Enrollments { get; set; }
