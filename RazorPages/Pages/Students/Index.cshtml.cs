@@ -26,7 +26,7 @@ namespace RazorPages.Pages.Students
 
 		public IList<Student> Students { get; set; } = default!;
 
-		public async Task OnGetAsync(string sortOrder, string searchString)
+		public async Task OnPostAsync(string sortOrder, string searchString)
 		{
 			NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : ""; // dessending
 			DateSort = sortOrder == "Date" ? "date_desc" : "Date";
