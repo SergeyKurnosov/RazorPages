@@ -8,57 +8,42 @@ using Microsoft.EntityFrameworkCore;
 using RazorPages.Data;
 using RazorPages.Models;
 
+using Microsoft.Extensions.Configuration;
+
 namespace RazorPages.Pages.Students
 {
 	public class IndexModel : PageModel
 	{
 		private readonly RazorPages.Data.ContosoUniversityContext _context;
 
-		public IndexModel(RazorPages.Data.ContosoUniversityContext context)
+
+		public IndexModel(RazorPages.Data.ContosoUniversityContext context, IConfiguration configuration)
 		{
 			_context = context;
+			this.configuration = configuration;
 		}
-
+		//Search and Sorting
 		public string NameSort { get; set; }
 		public string DateSort { get; set; }
 		public string CurrentFilter { get; set; }
 		public string CurrentSort { get; set; }
 
-		public IList<Student> Students { get; set; } = default!;
+	//	public IList<Student> Students { get; set; } = default!;
 
-		public async Task OnPostAsync(string sortOrder, string searchString)
+		//Pagination
+		readonly IConfiguration configuration;
+		public PaginatedList<Student> Students { get; set; }
+
+		public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
 		{
+			CurrentSort = sortOrder;
 			NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : ""; // dessending
 			DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+
+			if (searchString != null) pageIndex = 1;
+			else searchString = currentFilter;
 			CurrentFilter = searchString;
-			IQueryable<Student> students = from student in _context.Students select student;
 
-			if(!String.IsNullOrEmpty(CurrentFilter) )
-			{
-				students = 
-					students.
-					Where(s => s.LastName.Contains(CurrentFilter) || s.FirstName.Contains(CurrentFilter));
-			}
-
-			switch (sortOrder)
-			{
-				case "name_desc": students = students.OrderByDescending(s => s.LastName); break;
-				case "date_desc": students = students.OrderByDescending(s => s.EnrollmentDate); break;
-				case "Date": students = students.OrderBy(s => s.EnrollmentDate); break;
-
-				default: students = students.OrderBy(s => s.LastName); break;
-			}
-
-
-			Students = await students.AsNoTracking().ToListAsync();
-			//Students = await _context.Students.ToListAsync();
-		}
-
-		public async Task OnGetAsync(string sortOrder, string searchString)
-		{
-			NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : ""; // dessending
-			DateSort = sortOrder == "Date" ? "date_desc" : "Date";
-			CurrentFilter = searchString;
 			IQueryable<Student> students = from student in _context.Students select student;
 
 			if (!String.IsNullOrEmpty(CurrentFilter))
@@ -77,9 +62,40 @@ namespace RazorPages.Pages.Students
 				default: students = students.OrderBy(s => s.LastName); break;
 			}
 
-
-			Students = await students.AsNoTracking().ToListAsync();
+			int pageSize = configuration.GetValue("PageSize", 10);
+			Students = await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageIndex ?? 1, pageSize);
+			//Students = await students.AsNoTracking().ToListAsync();
 			//Students = await _context.Students.ToListAsync();
 		}
+
+
+		//public async Task OnPostAsync(string sortOrder, string searchString)
+		//{
+		//	NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : ""; // dessending
+		//	DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+		//	CurrentFilter = searchString;
+		//	IQueryable<Student> students = from student in _context.Students select student;
+
+		//	if(!String.IsNullOrEmpty(CurrentFilter) )
+		//	{
+		//		students = 
+		//			students.
+		//			Where(s => s.LastName.Contains(CurrentFilter) || s.FirstName.Contains(CurrentFilter));
+		//	}
+
+		//	switch (sortOrder)
+		//	{
+		//		case "name_desc": students = students.OrderByDescending(s => s.LastName); break;
+		//		case "date_desc": students = students.OrderByDescending(s => s.EnrollmentDate); break;
+		//		case "Date": students = students.OrderBy(s => s.EnrollmentDate); break;
+
+		//		default: students = students.OrderBy(s => s.LastName); break;
+		//	}
+
+
+		//	Students = await students.AsNoTracking().ToListAsync();
+		//	//Students = await _context.Students.ToListAsync();
+		//}
+
 	}
 }
