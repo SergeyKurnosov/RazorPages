@@ -1,0 +1,29 @@
+﻿@* @page
+@model HW_Academy_RazorPages.Pages.Groups.WeekdaysModel
+@using HW_Academy_RazorPages.Models;
+@{
+}
+
+<h3>Weekdays</h3>
+
+<div class="form-group">
+	<span class="text-danger">*</span>
+	<label asp-for="Group.direction" class="control-label"></label>
+	<select asp-for="days" class="form-control" asp-items="@Model.DAYNAMES" aria-required="true"></select>
+</div>
+@* <ul class="weekdays form-control">
+	@for (int i = 0; i < 7; i++)
+	{
+		int index = i;
+		<li>
+			<input type="checkbox" id="@DAYNAMES[i]" @bind ="days[index]" @bind:after ="Compress" />
+			<label for="@DAYNAMES[index]">@DAYNAMES[index]</label>
+		</li>
+	}
+</ul> *@
+
+@* <div class="mb-3">
+	<label for="learning_days" class="form-label">mask:</label>
+	<InputNumber id="mask" @bind-Value ="mask" class="form-control" />
+	 <ValidationMessage For="() => mask" class="text-danger" /> 
+</div> *@ 
