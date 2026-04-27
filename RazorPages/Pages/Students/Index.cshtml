@@ -32,11 +32,12 @@
 		<tr>
 			<th>
 				<a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
-				   asp-route-currentFilter="@Model.CurrentFilter">@Html.DisplayNameFor(model => model.Students[0].LastName)</a>
+				   asp-route-currentFilter="@Model.CurrentFilter">@Html.DisplayNameFor(model => model.Students[0].FullName)</a>
 			</th>
-			<th>
+@* 			<th>
 				@Html.DisplayNameFor(model => model.Students[0].FirstName)
-			</th>
+			</th>  *@
+	
 			<th>
 				<a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
 				   asp-route-currentFilter="@Model.CurrentFilter">@Html.DisplayNameFor(model => model.Students[0].EnrollmentDate)</a>
@@ -49,11 +50,11 @@
 		{
 			<tr>
 				<td>
-					@Html.DisplayFor(modelItem => item.LastName)
+					@Html.DisplayFor(modelItem => item.FullName)
 				</td>
-				<td>
+@* 				<td>
 					@Html.DisplayFor(modelItem => item.FirstName)
-				</td>
+				</td> *@
 				<td>
 					@Html.DisplayFor(modelItem => item.EnrollmentDate)
 				</td>
