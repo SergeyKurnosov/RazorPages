@@ -31,10 +31,11 @@ namespace HW_Academy_RazorPages.Pages.Groups
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
 
             _context.Groups.Add(Group);
             await _context.SaveChangesAsync();

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using HW_Academy_RazorPages.Data;
 using HW_Academy_RazorPages.Models;
 
+
 namespace HW_Academy_RazorPages.Pages.Directions
 {
     public class CreateModel : PageModel
@@ -30,10 +31,10 @@ namespace HW_Academy_RazorPages.Pages.Directions
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)//////////////////////////////////////////////////////////////////////////////////////////////////////
+            //{
+            //    return Page();
+            //}
 
             _context.Directions.Add(Direction);
             await _context.SaveChangesAsync();

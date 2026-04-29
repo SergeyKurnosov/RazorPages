@@ -1,19 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HW_Academy_RazorPages.Data;
+using HW_Academy_RazorPages.Models;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using HW_Academy_RazorPages.Data;
-using HW_Academy_RazorPages.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HW_Academy_RazorPages.Pages.Teachers
 {
     public class EditModel : PageModel
     {
-        private readonly HW_Academy_RazorPages.Data.HW_Academy_RazorPagesContext _context;
+		public Human Human { get; set; }
+        public string path { get; set; }
+        public byte [] data { get; set; }
+
+		private readonly HW_Academy_RazorPages.Data.HW_Academy_RazorPagesContext _context;
 
         public EditModel(HW_Academy_RazorPages.Data.HW_Academy_RazorPagesContext context)
         {
@@ -23,7 +29,10 @@ namespace HW_Academy_RazorPages.Pages.Teachers
         [BindProperty]
         public Teacher Teacher { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+		[BindProperty]
+		public IFormFile UploadedFile { get; set; }
+
+		public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
@@ -52,7 +61,16 @@ namespace HW_Academy_RazorPages.Pages.Teachers
 
             try
             {
-                await _context.SaveChangesAsync();
+				//if (UploadedFile != null)
+				//{
+				//	using (var stream = UploadedFile.OpenReadStream())
+				//	{
+				//		byte[] bytes = new byte[UploadedFile.Length];
+				//		stream.Read(bytes, 0, bytes.Length);
+    //                    Teacher.photo = bytes;
+				//	}
+				//}
+				await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,5 +91,6 @@ namespace HW_Academy_RazorPages.Pages.Teachers
         {
             return _context.Teachers.Any(e => e.teacher_id == id);
         }
-    }
+
+	}
 }
