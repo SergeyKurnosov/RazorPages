@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using HW_Academy2.Data;
 using HW_Academy2.Models;
 
-namespace HW_Academy2.Pages.Students
+namespace HW_Academy2.Pages.Teachers
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace HW_Academy2.Pages.Students
         }
 
         [BindProperty]
-        public Student Student { get; set; } = default!;
+        public Teacher Teacher { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,13 +30,12 @@ namespace HW_Academy2.Pages.Students
                 return NotFound();
             }
 
-            var student =  await _context.Students.FirstOrDefaultAsync(m => m.stud_id == id);
-            if (student == null)
+            var teacher =  await _context.Teachers.FirstOrDefaultAsync(m => m.teacher_id == id);
+            if (teacher == null)
             {
                 return NotFound();
             }
-            Student = student;
-           ViewData["group"] = new SelectList(_context.Groups, "group_id", "group_name");
+            Teacher = teacher;
             return Page();
         }
 
@@ -49,24 +48,25 @@ namespace HW_Academy2.Pages.Students
                 return Page();
             }
 
-				if (Student.photoFile != null && Student.photoFile.Length > 0)
+			if (Teacher.photoFile != null && Teacher.photoFile.Length > 0)
+			{
+				using (var memoryStream = new MemoryStream())
 				{
-					using (var memoryStream = new MemoryStream())
-					{
-						await Student.photoFile.CopyToAsync(memoryStream);
-						Student.photo = memoryStream.ToArray();
-					}
-
+					await Teacher.photoFile.CopyToAsync(memoryStream);
+					Teacher.photo = memoryStream.ToArray();
 				}
-            _context.Attach(Student).State = EntityState.Modified;
+
+			}
+
+			_context.Attach(Teacher).State = EntityState.Modified;
 
             try
             {
-				await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentExists(Student.stud_id))
+                if (!TeacherExists(Teacher.teacher_id))
                 {
                     return NotFound();
                 }
@@ -79,9 +79,9 @@ namespace HW_Academy2.Pages.Students
             return RedirectToPage("./Index");
         }
 
-        private bool StudentExists(int id)
+        private bool TeacherExists(int id)
         {
-            return _context.Students.Any(e => e.stud_id == id);
+            return _context.Teachers.Any(e => e.teacher_id == id);
         }
     }
 }

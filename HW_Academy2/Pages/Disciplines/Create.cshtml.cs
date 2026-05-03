@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using HW_Academy2.Data;
 using HW_Academy2.Models;
 
-namespace HW_Academy2.Pages.Groups
+namespace HW_Academy2.Pages.Disciplines
 {
     public class CreateModel : PageModel
     {
@@ -21,12 +21,11 @@ namespace HW_Academy2.Pages.Groups
 
         public IActionResult OnGet()
         {
-        ViewData["direction"] = new SelectList(_context.Directions, "direction_id", "direction_name");
             return Page();
         }
 
         [BindProperty]
-        public Group Group { get; set; } = default!;
+        public Discipline Discipline { get; set; } = default!;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -36,30 +35,7 @@ namespace HW_Academy2.Pages.Groups
                 return Page();
             }
 
-            bool[] days = {
-                Group.days1 ,
-                Group.days2 ,
-                Group.days3 ,
-                Group.days4 ,
-                Group.days5 ,
-                Group.days6 ,
-                Group.days7 
-            };
-
-			int mask;
-
-				mask = 0;
-				for (byte i = 0; i < 7; i++)
-				{
-					if (days[i])
-						mask |= (byte)(1 << i);
-				}
-				Group.learning_days = mask;
-
-
-
-
-				_context.Groups.Add(Group);
+            _context.Disciplines.Add(Discipline);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

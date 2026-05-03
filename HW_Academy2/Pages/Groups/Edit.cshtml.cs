@@ -49,7 +49,27 @@ namespace HW_Academy2.Pages.Groups
                 return Page();
             }
 
-            _context.Attach(Group).State = EntityState.Modified;
+			bool[] days = {
+				Group.days1 ,
+				Group.days2 ,
+				Group.days3 ,
+				Group.days4 ,
+				Group.days5 ,
+				Group.days6 ,
+				Group.days7
+			};
+
+			int mask;
+
+			mask = 0;
+			for (byte i = 0; i < 7; i++)
+			{
+				if (days[i])
+					mask |= (byte)(1 << i);
+			}
+			Group.learning_days = mask;
+
+			_context.Attach(Group).State = EntityState.Modified;
 
             try
             {

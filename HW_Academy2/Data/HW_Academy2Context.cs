@@ -17,5 +17,8 @@ namespace HW_Academy2.Data
         public DbSet<HW_Academy2.Models.Direction> Directions { get; set; } = default!;
         public DbSet<HW_Academy2.Models.Group> Groups { get; set; } = default!;
         public DbSet<HW_Academy2.Models.Student> Students { get; set; } = default!;
-    }
+        public DbSet<HW_Academy2.Models.Teacher> Teachers { get; set; } = default!;
+        public DbSet<HW_Academy2.Models.Discipline> Disciplines { get; set; } = default!;
+		public DbSet<HW_Academy2.Models.TeacherDisciplineRelation> TeachersDisciplinesRelation { get; set; } = default!;
+	}
 }

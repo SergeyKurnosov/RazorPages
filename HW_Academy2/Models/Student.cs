@@ -11,6 +11,9 @@ namespace HW_Academy2.Models
 		[ForeignKey("Group")]
 		public int group { get; set; }
 
+		[NotMapped]
+		public IFormFile? photoFile { get; set; }
+
 		// Navigation Properties
 		public Group? Group { get; set; } = default!;
 	}

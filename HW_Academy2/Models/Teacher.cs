@@ -11,8 +11,11 @@ namespace HW_Academy2.Models
 		public DateOnly work_since { get; set; } = default!;
 		public decimal rate { get; set; }
 
+		[NotMapped]
+		public IFormFile? photoFile { get; set; }
+
 		// Navigation Property
 
-		public ICollection<TeacherDisciplineRelation> DisciplinesRelations { get; set; } = default!;
+		public ICollection<TeacherDisciplineRelation>? DisciplinesRelations { get; set; } = default!;
 	}
 }

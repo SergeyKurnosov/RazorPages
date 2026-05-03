@@ -1,9 +1,9 @@
-﻿//using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HW_Academy2.Models
 {
-	//[PrimaryKey(nameof(teacher), nameof(discipline))]
+	[PrimaryKey(nameof(teacher), nameof(discipline))]
 	public class TeacherDisciplineRelation
 	{
 		[Column(TypeName = "SMALLINT")]

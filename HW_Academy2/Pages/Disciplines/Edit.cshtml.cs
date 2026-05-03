@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using HW_Academy2.Data;
 using HW_Academy2.Models;
 
-namespace HW_Academy2.Pages.Students
+namespace HW_Academy2.Pages.Disciplines
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace HW_Academy2.Pages.Students
         }
 
         [BindProperty]
-        public Student Student { get; set; } = default!;
+        public Discipline Discipline { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,13 +30,12 @@ namespace HW_Academy2.Pages.Students
                 return NotFound();
             }
 
-            var student =  await _context.Students.FirstOrDefaultAsync(m => m.stud_id == id);
-            if (student == null)
+            var discipline =  await _context.Disciplines.FirstOrDefaultAsync(m => m.discipline_id == id);
+            if (discipline == null)
             {
                 return NotFound();
             }
-            Student = student;
-           ViewData["group"] = new SelectList(_context.Groups, "group_id", "group_name");
+            Discipline = discipline;
             return Page();
         }
 
@@ -49,24 +48,15 @@ namespace HW_Academy2.Pages.Students
                 return Page();
             }
 
-				if (Student.photoFile != null && Student.photoFile.Length > 0)
-				{
-					using (var memoryStream = new MemoryStream())
-					{
-						await Student.photoFile.CopyToAsync(memoryStream);
-						Student.photo = memoryStream.ToArray();
-					}
-
-				}
-            _context.Attach(Student).State = EntityState.Modified;
+            _context.Attach(Discipline).State = EntityState.Modified;
 
             try
             {
-				await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentExists(Student.stud_id))
+                if (!DisciplineExists(Discipline.discipline_id))
                 {
                     return NotFound();
                 }
@@ -79,9 +69,9 @@ namespace HW_Academy2.Pages.Students
             return RedirectToPage("./Index");
         }
 
-        private bool StudentExists(int id)
+        private bool DisciplineExists(int id)
         {
-            return _context.Students.Any(e => e.stud_id == id);
+            return _context.Disciplines.Any(e => e.discipline_id == id);
         }
     }
 }

@@ -22,9 +22,24 @@ namespace HW_Academy2.Models
 
 		public TimeOnly start_time { get; set; }
 
+		[NotMapped]
+		public bool days1 { get; set; }
+		[NotMapped]
+		public bool days2 { get; set; }
+		[NotMapped]
+		public bool days3 { get; set; }
+		[NotMapped]
+		public bool days4 { get; set; }
+		[NotMapped]
+		public bool days5 { get; set; }
+		[NotMapped]
+		public bool days6 { get; set; }
+		[NotMapped]
+		public bool days7 { get; set; }
+
 		// Navigation properties
 		public Direction? Direction { get; set; }
 
-		public ICollection<Student>? Students { get; set; } = default!;
+		public ICollection<Student>? Students { get; set; }
 	}
 }

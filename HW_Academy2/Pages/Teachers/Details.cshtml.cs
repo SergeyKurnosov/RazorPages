@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HW_Academy2.Data;
 using HW_Academy2.Models;
 
-namespace HW_Academy2.Pages.Directions
+namespace HW_Academy2.Pages.Teachers
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace HW_Academy2.Pages.Directions
             _context = context;
         }
 
-        public Direction Direction { get; set; } = default!;
+        public Teacher Teacher { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,14 +28,14 @@ namespace HW_Academy2.Pages.Directions
                 return NotFound();
             }
 
-            var direction = await _context.Directions.Include(d => d.Groups).FirstOrDefaultAsync(m => m.direction_id == id);
-            if (direction == null)
+            var teacher = await _context.Teachers.FirstOrDefaultAsync(m => m.teacher_id == id);
+            if (teacher == null)
             {
                 return NotFound();
             }
             else
             {
-                Direction = direction;
+                Teacher = teacher;
             }
             return Page();
         }
