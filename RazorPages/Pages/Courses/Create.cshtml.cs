@@ -10,55 +10,55 @@ using RazorPages.Models;
 
 namespace RazorPages.Pages.Courses
 {
-    public class CreateModel : DepartmentNamePageModel
-    {
-        private readonly RazorPages.Data.ContosoUniversityContext _context;
+	public class CreateModel : DepartmentNamePageModel
+	{
+		private readonly RazorPages.Data.ContosoUniversityContext _context;
 
-        public CreateModel(RazorPages.Data.ContosoUniversityContext context)
-        {
-            _context = context;
-        }
+		public CreateModel(RazorPages.Data.ContosoUniversityContext context)
+		{
+			_context = context;
+		}
 
-        public IActionResult OnGet()
-        {
-            //  ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "Name");
-            PopulateDepartmentsDropDownList(_context);
-            return Page();
-        }
+		public IActionResult OnGet()
+		{
+			//  ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "Name");
+			PopulateDepartmentsDropDownList(_context);
+			return Page();
+		}
 
-        [BindProperty]
-        public Course Course { get; set; } = default!;
+		[BindProperty]
+		public Course Course { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
-        {
-            Course emptyCourse = new Course();
-            bool result = await TryUpdateModelAsync<Course>
-                (
-                emptyCourse,
-                "course",
-                s => s.CourseID, s => s.DepartmentID, s => s.Title, s => s.Credits
-                );
+		// For more information, see https://aka.ms/RazorPagesCRUD.
+		public async Task<IActionResult> OnPostAsync()
+		{
+			Course emptyCourse = new Course();
+			bool result = await TryUpdateModelAsync<Course>
+				(
+				emptyCourse,
+				"course",
+				s => s.CourseID, s => s.DepartmentID, s => s.Title, s => s.Credits
+				);
 
-            if(result)
-            {
-_context.Courses.Add(emptyCourse);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
+			if (result)
+			{
+				_context.Courses.Add(emptyCourse);
+				await _context.SaveChangesAsync();
+				return RedirectToPage("./Index");
+			}
 
-            PopulateDepartmentsDropDownList( _context, emptyCourse.DepartmentID);
-            return Page();
+			PopulateDepartmentsDropDownList(_context, emptyCourse.DepartmentID);
+			return Page();
 
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
+			//if (!ModelState.IsValid)
+			//{
+			//    return Page();
+			//}
 
-            //_context.Courses.Add(Course);
-            //await _context.SaveChangesAsync();
+			//_context.Courses.Add(Course);
+			//await _context.SaveChangesAsync();
 
-            //return RedirectToPage("./Index");
-        }
-    }
+			//return RedirectToPage("./Index");
+		}
+	}
 }

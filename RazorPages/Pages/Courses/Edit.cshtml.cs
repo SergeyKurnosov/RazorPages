@@ -11,92 +11,92 @@ using RazorPages.Models;
 
 namespace RazorPages.Pages.Courses
 {
-    public class EditModel : DepartmentNamePageModel
-    {
-        private readonly RazorPages.Data.ContosoUniversityContext _context;
+	public class EditModel : DepartmentNamePageModel
+	{
+		private readonly RazorPages.Data.ContosoUniversityContext _context;
 
-        public EditModel(RazorPages.Data.ContosoUniversityContext context)
-        {
-            _context = context;
-        }
+		public EditModel(RazorPages.Data.ContosoUniversityContext context)
+		{
+			_context = context;
+		}
 
-        [BindProperty]
-        public Course Course { get; set; } = default!;
+		[BindProperty]
+		public Course Course { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		public async Task<IActionResult> OnGetAsync(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-            Course course =  await _context.Courses.Include(c=>c.Department).FirstOrDefaultAsync(m => m.CourseID == id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-            Course = course;
-           //ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "Name");
-           PopulateDepartmentsDropDownList(_context, Course.DepartmentID);
-            return Page();
-        }
+			Course course = await _context.Courses.Include(c => c.Department).FirstOrDefaultAsync(m => m.CourseID == id);
+			if (course == null)
+			{
+				return NotFound();
+			}
+			Course = course;
+			//ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "Name");
+			PopulateDepartmentsDropDownList(_context, Course.DepartmentID);
+			return Page();
+		}
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more information, see https://aka.ms/RazorPagesCRUD.
 
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Page();
-        //    }
+		//public async Task<IActionResult> OnPostAsync()
+		//{
+		//    if (!ModelState.IsValid)
+		//    {
+		//        return Page();
+		//    }
 
-        //    _context.Attach(Course).State = EntityState.Modified;
+		//    _context.Attach(Course).State = EntityState.Modified;
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CourseExists(Course.CourseID))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+		//    try
+		//    {
+		//        await _context.SaveChangesAsync();
+		//    }
+		//    catch (DbUpdateConcurrencyException)
+		//    {
+		//        if (!CourseExists(Course.CourseID))
+		//        {
+		//            return NotFound();
+		//        }
+		//        else
+		//        {
+		//            throw;
+		//        }
+		//    }
 
-        //    return RedirectToPage("./Index");
-        //}
+		//    return RedirectToPage("./Index");
+		//}
 
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if(id == null) return NotFound();
-            Course courseToUpdate = await _context.Courses.FindAsync(id);
-            if (courseToUpdate == null) return NotFound();
+		public async Task<IActionResult> OnPostAsync(int? id)
+		{
+			if (id == null) return NotFound();
+			Course courseToUpdate = await _context.Courses.FindAsync(id);
+			if (courseToUpdate == null) return NotFound();
 
-            bool success = await TryUpdateModelAsync<Course>
-                (
-                courseToUpdate,
-                "course",
-                c => c.Credits, c => c.DepartmentID, c => c.Title
-                );
-            if (success)
-            {
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+			bool success = await TryUpdateModelAsync<Course>
+				(
+				courseToUpdate,
+				"course",
+				c => c.Credits, c => c.DepartmentID, c => c.Title
+				);
+			if (success)
+			{
+				await _context.SaveChangesAsync();
+				return RedirectToPage("./Index");
 
-            }
-            PopulateDepartmentsDropDownList(_context, courseToUpdate.DepartmentID); 
-            return Page();
-        }
+			}
+			PopulateDepartmentsDropDownList(_context, courseToUpdate.DepartmentID);
+			return Page();
+		}
 
-        private bool CourseExists(int id)
-        {
-            return _context.Courses.Any(e => e.CourseID == id);
-        }
-    }
+		private bool CourseExists(int id)
+		{
+			return _context.Courses.Any(e => e.CourseID == id);
+		}
+	}
 }

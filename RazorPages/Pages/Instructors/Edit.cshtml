@@ -50,12 +50,16 @@
 									}
 									@:<td>
 									@:<div>
-									<input type="checkbox" 
-									name="selectedCourses" 
-									value="@course.CourseID"
-									@(Html.Raw(course.Assigned ? "checked=\"checked\"" : ""))
-									/>
-									@course.CourseID @: @course.Title
+										<input type="checkbox" 
+											name="selectedCourses" 
+											value="@course.CourseID"
+											id="@course.CourseID"
+											@(Html.Raw(course.Assigned ? "checked=\"checked\"" : ""))
+										/>
+										<label for="@course.CourseID">
+										
+										@course.CourseID : @course.Title
+										</label>
 									@:</div>
 									@:</td>
 								}
