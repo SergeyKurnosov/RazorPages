@@ -21,6 +21,10 @@ namespace RazorPages.Models
 
 		public int? InstructorID { get; set; }
 
+		//handling concurency conflicts
+		[Timestamp]
+		public byte[] ConcurerrencyToken { get; set; }
+
 		//NavigationProperties
 		public Instructor Administrator { get; set; }
 		public ICollection<Course> Courses { get; set; }
