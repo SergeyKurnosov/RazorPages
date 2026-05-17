@@ -28,7 +28,7 @@ namespace RazorPages.Pages.Departments
                 return NotFound();
             }
 
-            var department = await _context.Departments.FirstOrDefaultAsync(m => m.DepartmentID == id);
+            var department = await _context.Departments.Include(d=>d.Administrator).AsNoTracking().FirstOrDefaultAsync(m => m.DepartmentID == id);
             if (department == null)
             {
                 return NotFound();
